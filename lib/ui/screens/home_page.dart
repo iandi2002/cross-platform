@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/plants.dart';
+
+import 'package:flutter_onboarding/models/tool.dart';
 import 'package:flutter_onboarding/ui/screens/detail_page.dart';
+import 'package:flutter_onboarding/ui/screens/indoor_page.dart';
+import 'package:flutter_onboarding/ui/screens/outdoor.dart';
+import 'package:flutter_onboarding/ui/screens/fer.dart';
+import 'package:flutter_onboarding/ui/screens/tool.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -20,16 +26,14 @@ class _HomePageState extends State<HomePage> {
 
     List<Plant> _plantList = Plant.plantList;
 
-    //Plants category
     List<String> _plantTypes = [
       'Recommended',
       'Indoor',
       'Outdoor',
-      'Garden',
-      'Supplement',
+      'Fertilizer',
+      'Garden tools',
     ];
 
-    //Toggle Favorite button
     bool toggleIsFavorated(bool isFavorited) {
       return !isFavorited;
     }
@@ -94,6 +98,55 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         setState(() {
                           selectedIndex = index;
+                          // Навигация к соответствующему экрану
+                          switch (index) {
+                            case 0:
+                              // Навигация к HomePage при нажатии на "Recommended"
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                              break;
+                            case 1:
+                              // Навигация к IndoorPage при нажатии на "Indoor"
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IndoorPage(),
+                                ),
+                              );
+                              break;
+                            case 2:
+                              // Навигация к IndoorPage при нажатии на "Indoor"
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OutdoorPage(),
+                                ),
+                              );
+                              break;
+                            case 3:
+                              // Навигация к IndoorPage при нажатии на "Indoor"
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ferPage(),
+                                ),
+                              );
+                              break;
+                            case 4:
+                              // Навигация к IndoorPage при нажатии на "Indoor"
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => toolPage(),
+                                ),
+                              );
+                              break;
+                            // Добавьте обработку для других категорий
+                          }
                         });
                       },
                       child: Text(
@@ -239,8 +292,13 @@ class _HomePageState extends State<HomePage> {
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, PageTransition(child: DetailPage(plantId: _plantList[index].plantId), type: PageTransitionType.bottomToTop));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: DetailPage(
+                                    plantId: _plantList[index].plantId),
+                                type: PageTransitionType.bottomToTop));
                       },
                       child: PlantWidget(index: index, plantList: _plantList));
                 }),
@@ -250,4 +308,3 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 }
-

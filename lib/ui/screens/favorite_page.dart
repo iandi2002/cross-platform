@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding/constants.dart';
 import 'package:flutter_onboarding/models/plants.dart';
 import 'package:flutter_onboarding/ui/screens/widgets/plant_widget.dart';
+import 'weather.dart'; // Импортируем файл с погодой
 
 class FavoritePage extends StatefulWidget {
   final List<Plant> favoritedPlants;
@@ -17,6 +18,23 @@ class _FavoritePageState extends State<FavoritePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Favorite Plants'),
+        actions: [
+          // Добавляем кнопку "Weather and Recommendation"
+          IconButton(
+            icon: Icon(Icons.cloud),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        WeatherPage()), // Открываем страницу с погодой
+              );
+            },
+          ),
+        ],
+      ),
       body: widget.favoritedPlants.isEmpty
           ? Center(
               child: Column(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_onboarding/constants.dart';
 
 class ScanPage extends StatefulWidget {
@@ -17,51 +18,50 @@ class _ScanPageState extends State<ScanPage> {
       body: Stack(
         children: [
           Positioned(
-              top: 50,
-              left: 20,
-              right: 20,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Constants.primaryColor.withOpacity(.15),
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Constants.primaryColor,
-                      ),
+            top: 50,
+            left: 20,
+            right: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Constants.primaryColor.withOpacity(.15),
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Constants.primaryColor,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      debugPrint('favorite');
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Constants.primaryColor.withOpacity(.15),
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.share,
-                          color: Constants.primaryColor,
-                        ),
-                      ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // Добавлен вызов метода для сканирования QR-кода
+                    scanBarcode();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Constants.primaryColor.withOpacity(.15),
+                    ),
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Constants.primaryColor,
                     ),
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
           Positioned(
             top: 100,
             right: 20,
@@ -98,5 +98,18 @@ class _ScanPageState extends State<ScanPage> {
         ],
       ),
     );
+  }
+
+  // Метод для сканирования QR-кода
+  Future<void> scanBarcode() async {
+    String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666',
+      'Cancel',
+      true,
+      ScanMode.BARCODE,
+    );
+
+    // Обработка результата сканирования
+    debugPrint('Barcode: $barcodeScanRes');
   }
 }
